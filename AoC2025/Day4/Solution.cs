@@ -6,14 +6,14 @@ public static class Solution
 
     private static readonly List<Direction> Directions =
     [
-        new(-1, 0), // N
-        new(-1, 1), // NE
-        new(0, 1), // E
-        new(1, 1), // SE
-        new(1, 0), // S
-        new(1, -1), // SW
-        new(0, -1), // W
-        new(-1, -1) // NW
+        new(-1, 0),  // N
+        new(-1, 1),  // NE
+        new(0, 1),   // E
+        new(1, 1),   // SE
+        new(1, 0),   // S
+        new(1, -1),  // SW
+        new(0, -1),  // W
+        new(-1, -1)  // NW
     ];
 
     public static async Task<long> Solve1(string inputPath, int maxAdjacent = 4)
@@ -21,12 +21,8 @@ public static class Solution
         var grid = await ParseInput(inputPath);
         var totalRows = grid.Count;
         var totalColumns = grid[0].Count;
-        
-        var result = 0L;
 
-        result = WorkWork(maxAdjacent, totalRows, totalColumns, grid, result);
-
-        return result;
+        return WorkWork(maxAdjacent, totalRows, totalColumns, grid);
     }
     
     public static async Task<long> Solve2(string inputPath, int maxAdjacent = 4)
@@ -35,16 +31,14 @@ public static class Solution
         var totalRows = grid.Count;
         var totalColumns = grid[0].Count;
         
-        var result = 0L;
-
-        result = WorkWork(maxAdjacent, totalRows, totalColumns, grid, result, true);
-
-        return result;
+        return  WorkWork(maxAdjacent, totalRows, totalColumns, grid, true);
     }
 
-    private static long WorkWork(int maxAdjacent, int totalRows, int totalColumns, List<List<int>> grid, long result,
+    private static long WorkWork(int maxAdjacent, int totalRows, int totalColumns, List<List<int>> grid,
         bool shouldRemove = false)
     {
+        var result = 0L;
+        
         bool removed;
 
         do
@@ -70,7 +64,7 @@ public static class Solution
                             }
                         }
 
-                        if (rollsFound > maxAdjacent)
+                        if (rollsFound >= maxAdjacent)
                         {
                             break;
                         }
