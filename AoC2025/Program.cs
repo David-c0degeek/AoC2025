@@ -8,7 +8,23 @@ internal static class Program
     {
         // await ExecuteDay1();
         // await ExecuteDay2();
-        await ExecuteDay3();
+        // await ExecuteDay3();
+        await ExecuteDay4();
+    }
+
+    private static async Task ExecuteDay4()
+    {
+        var result = await Day4.Solution.Solve1("Day4/day4part1example.txt");
+        result.Should().Be(13);
+        
+        var result1 = await Day4.Solution.Solve1("Day4/day4part1input.txt");
+        result1.Should().Be(1551);
+        
+        var result2 = await Day4.Solution.Solve2("Day4/day4part1example.txt");
+        result2.Should().Be(43);
+        
+        var result3 = await Day4.Solution.Solve2("Day4/day4part1input.txt");
+        result3.Should().Be(9784);
     }
 
     private static async Task ExecuteDay3()
