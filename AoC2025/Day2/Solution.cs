@@ -4,75 +4,71 @@ namespace AoC2025.Day2;
 
 public static class Solution
 {
-    public static async Task<double> Solve1(string inputPath)
+    public static async Task<long> Solve1(string inputPath)
     {
         var input = await File.ReadAllLinesAsync(inputPath);
 
         var ids = ParseRanges(input);
+        
+        return ids
+            .Where(HasTwoEqualHalves)
+            .Sum(id => long.Parse(id, CultureInfo.InvariantCulture));
+    }
+    
+    private static bool HasTwoEqualHalves(string id)
+    {
+        var half = id.Length / 2;
+        if (id.Length % 2 != 0) return false;
 
-        double result = 0;
+        var left = id[..half];
+        var right = id[half..];
 
-        foreach (var id in ids)
+        return string.Equals(left, right, StringComparison.Ordinal);
+    }
+    
+    public static async Task<long> Solve2(string inputPath)
+    {
+        var input = await File.ReadAllLinesAsync(inputPath);
+        var ids = ParseRanges(input);
+
+        return ids
+            .Where(IsMadeOfRepeatingSubstring)
+            .Sum(id => long.Parse(id, CultureInfo.InvariantCulture));
+    }
+
+    
+    private static bool IsMadeOfRepeatingSubstring(string id)
+    {
+        var len = id.Length;
+
+        for (var i = 1; i <= len / 2; i++)
         {
-            var left = id[..(id.Length / 2)];
-            var right = id[(id.Length / 2)..];
+            var toCheck = id[..i];
 
-            if (!left.Equals(right))
+            if (len % toCheck.Length != 0)
             {
                 continue;
             }
 
-            result += double.Parse(id);
-        }
-
-        return result;
-    }
-    
-    public static async Task<double> Solve2(string inputPath)
-    {
-        var input = await File.ReadAllLinesAsync(inputPath);
-
-        var ids = ParseRanges(input);
-
-        double result = 0;
-        
-        foreach (var id in ids)
-        {
-            var len = id.Length;
-
-            var found = false;
-            for (var i = 1; i < len / 2 + 1; i++)
+            var allMatch = true;
+            for (var j = 0; j < len; j += toCheck.Length)
             {
-                var toCheck = id[..i];
-
-                if (len % toCheck.Length != 0)
+                if (!id.AsSpan(j, toCheck.Length).SequenceEqual(toCheck))
                 {
-                    continue;
+                    allMatch = false;
+                    break;
                 }
-                
-                var chunks = new List<string>();
-                for (var j = 0; j < len; j += toCheck.Length)
-                {
-                    chunks.Add(id.Substring(j, toCheck.Length));
-                }
-
-                if (!chunks.All(c => c.Equals(toCheck)))
-                {
-                    continue;
-                }
-
-                found = true;
-                break;
             }
-            
-            if (found)
+
+            if (allMatch)
             {
-                result += double.Parse(id);
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
+
 
     private static List<string> ParseRanges(string[] input)
     {
@@ -80,7 +76,9 @@ public static class Solution
 
         foreach (var line in input)
         {
-            var segments = line.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            var segments = line
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim());
 
             foreach (var segment in segments)
             {
@@ -96,25 +94,26 @@ public static class Solution
         var parts = range.Split('-', StringSplitOptions.RemoveEmptyEntries);
 
         if (parts.Length != 2 ||
-            !double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var start) ||
-            !double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var end) ||
+            !long.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out var start) ||
+            !long.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out var end) ||
             start > end)
         {
             throw new FormatException($"Invalid range format: {range}");
         }
 
-        foreach (var x in DoubleRange(start, end, 1))
+        foreach (var x in LongRange(start, end))
         {
             yield return x.ToString(CultureInfo.InvariantCulture);
         }
     }
 
 
-    private static IEnumerable<double> DoubleRange(double start, double end, double step)
+    private static IEnumerable<long> LongRange(long start, long end)
     {
-        for (var x = start; x <= end; x += step)
+        for (var x = start; x <= end; x++)
         {
             yield return x;
         }
     }
+
 }
