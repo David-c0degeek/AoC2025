@@ -1,6 +1,6 @@
 ﻿namespace AoC2025.Day1;
 
-public static class Part1
+public static class Solution
 {
     public static async Task<int> Solve(string inputPath, int startPosition = 50, int dialSize = 100, bool trackAllHits = false)
     {
