@@ -19,9 +19,9 @@ public static class Solution
     public static async Task<long> Solve1(string inputPath, int maxAdjacent = 4)
     {
         var grid = await ParseInput(inputPath);
-        var totalRows = grid[0].Count;
-        var totalColumns = grid.Count;
-
+        var totalRows = grid.Count;
+        var totalColumns = grid[0].Count;
+        
         var result = 0L;
 
         result = WorkWork(maxAdjacent, totalRows, totalColumns, grid, result);
@@ -32,9 +32,9 @@ public static class Solution
     public static async Task<long> Solve2(string inputPath, int maxAdjacent = 4)
     {
         var grid = await ParseInput(inputPath);
-        var totalRows = grid[0].Count;
-        var totalColumns = grid.Count;
-
+        var totalRows = grid.Count;
+        var totalColumns = grid[0].Count;
+        
         var result = 0L;
 
         result = WorkWork(maxAdjacent, totalRows, totalColumns, grid, result, true);
@@ -62,7 +62,7 @@ public static class Solution
                     var rollsFound = 0;
                     foreach (var direction in Directions)
                     {
-                        if (CanMoveInDirection(totalRows, totalColumns, i, j, direction))
+                        if (IsInBounds(totalRows, totalColumns, i, j, direction))
                         {
                             if (grid[i + direction.Row][j + direction.Column] == 1)
                             {
@@ -91,7 +91,7 @@ public static class Solution
         return result;
     }
 
-    private static bool CanMoveInDirection(int totalRows, int totalColumns, int startRow, int startColumn,
+    private static bool IsInBounds(int totalRows, int totalColumns, int startRow, int startColumn,
         Direction direction)
     {
         if (startRow + direction.Row < 0) return false;
@@ -106,9 +106,10 @@ public static class Solution
     {
         var input = await File.ReadAllLinesAsync(inputPath);
 
-        var rowLength = input[0].Length;
+        var rowCount = input.Length;
 
-        var grid = new List<List<int>>(rowLength);
+        var grid = new List<List<int>>(rowCount);
+
         grid.AddRange(input
             .Select(row => row
                 .ToCharArray()
