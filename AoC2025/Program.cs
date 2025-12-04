@@ -7,16 +7,22 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         // await ExecuteDay1();
-        await ExecuteDay2();
+        // await ExecuteDay2();
     }
 
     private static async Task ExecuteDay2()
     {
-        var result = await Day2.Solution.Solve("Day2/day2part1example.txt");
+        var result = await Day2.Solution.Solve1("Day2/day2part1example.txt");
         result.Should().Be(1227775554);
         
-        var result2 = await Day2.Solution.Solve("Day2/day2part1input.txt");
+        var result2 = await Day2.Solution.Solve1("Day2/day2part1input.txt");
         result2.Should().Be(23560874270);
+        
+        var result3 = await Day2.Solution.Solve2("Day2/day2part1example.txt");
+        result3.Should().Be(4174379265);
+        
+        var result4 = await Day2.Solution.Solve2("Day2/day2part1input.txt");
+        result4.Should().Be(44143124633);
     }
 
     private static async Task ExecuteDay1()
