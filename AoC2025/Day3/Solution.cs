@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace AoC2025.Day3;
+﻿namespace AoC2025.Day3;
 
 public static class Solution
 {
