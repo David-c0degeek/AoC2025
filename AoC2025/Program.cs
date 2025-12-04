@@ -18,6 +18,12 @@ internal static class Program
         
         var result1 = await Day3.Solution.Solve1("Day3/day3part1input.txt");
         result1.Should().Be(16993);
+        
+        var result2 = await Day3.Solution.Solve2("Day3/day3part1example.txt");
+        result2.Should().Be(3121910778619);
+        
+        var result3 = await Day3.Solution.Solve2("Day3/day3part1input.txt");
+        result3.Should().Be(168617068915447);
     }
 
     private static async Task ExecuteDay2()
