@@ -28,6 +28,19 @@ public static class Solution
 
         return result;
     }
+    
+    public static async Task<long> Solve2(string inputPath, int maxAdjacent = 4)
+    {
+        var grid = await ParseInput(inputPath);
+        var totalRows = grid[0].Count;
+        var totalColumns = grid.Count;
+
+        var result = 0L;
+
+        result = WorkWork(maxAdjacent, totalRows, totalColumns, grid, result, true);
+
+        return result;
+    }
 
     private static long WorkWork(int maxAdjacent, int totalRows, int totalColumns, List<List<int>> grid, long result,
         bool shouldRemove = false)
@@ -74,19 +87,6 @@ public static class Solution
             }
         } while (removed);
 
-
-        return result;
-    }
-
-    public static async Task<long> Solve2(string inputPath, int maxAdjacent = 4)
-    {
-        var grid = await ParseInput(inputPath);
-        var totalRows = grid[0].Count;
-        var totalColumns = grid.Count;
-
-        var result = 0L;
-
-        result = WorkWork(maxAdjacent, totalRows, totalColumns, grid, result, true);
 
         return result;
     }
